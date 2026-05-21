@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Header-->
+<header class="py-5" style="background-color: #163067;">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shop with styling website</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Enjoy a special experience with our shopping page...</p>
+        </div>
+    </div>
+</header>
+<br>
+<!-- Section-->
+<!-- Carousel for latest products (Bootstrap style) -->
+
+<style>
+@keyframes flash-sale-blink {
+    0% { color: #fff; }
+    25% { color: #ff1744; }
+    50% { color: #ffd600; }
+    75% { color: #ff9100; }
+    100% { color: #fff; }
+}
+.flash-sale-title {
+    animation: flash-sale-blink 1.2s linear infinite;
+    font-weight: bolder;
+    font-size: larger;
+    letter-spacing: 10px;
+    background: #B7481C;
+    padding: 12px 0 12px 0;
+    margin-bottom: 0.5rem;
+}
+</style>
+
+<div id="saleCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="2000" style="background-color: #D89559;">
+    <div class="flash-sale-title text-center">
+        <h1>!!!  FLASH SALE  !!!</h1>
+    </div>
+    <div class="carousel-indicators" style="padding-left: 20em;">
+        {% for product in sale_products %}
+            <button type="button" data-bs-target="#saleCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for product in sale_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 350px; position: relative;">
+                    <div style="width: 300px; height: 300px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; z-index: 1;">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 300px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);">
+                    </div>
+                    <div style="min-width: 320px; max-width: 500px; margin-left: 40px; background: rgba(0,0,0,0.5); border-radius: 16px; color: #fff; padding: 32px 32px 32px 80px; position: relative; z-index: 2; box-shadow: 0 2px 16px rgba(0,0,0,0.10);">
+                        <h5>{{ product.name }}</h5>
+                        <p>Đang giảm giá từ <del>{{ product.price_commas }} VND</del> còn <strong>{{ product.sale_price_commas }} VND</strong></p>
+                        <a href="{% url 'product' product.id %}" class="btn btn-outline-warning">Mua Ngay</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+  </div>
+  
+  <button class="carousel-control-prev" type="button" data-bs-target="#saleCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#saleCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
+
+
+<!--Homepage Products-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+
+            {% for product in products %}
+                {% if product.is_sale %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Sale badge-->
+                                <div class="badge bg-danger text-white position-absolute" style="top: 0.6rem; right: 0.6rem">Sale</div>
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ product.image.url}}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ product.name}}</h5>
+                                    <!-- Product price-->
+                                        <strike class="text-danger">
+                                        {{ product.price_commas}} VND
+                                        </strike>
+                                    <br>
+                                    <b>{{ product.sale_price_commas }} VND</b>
+                                    
+                                    <br>
+                                    <!-- Product size -->
+                                    <b>Size:</b> {{ product.size}}
+                                    <br>
+                                    <!-- Product des -->
+                                    {{product.description}}
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" src="{{ product.image.url}}" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ product.name}}</h5>
+                            <!-- Product price-->
+                                <b>{{ product.price_commas }} VND</b>
+                            
+                            <br>
+                            <!-- Product size -->
+                            <b>Size:</b> {{ product.size}}
+                            <br>
+                            <!-- Product des -->
+                                {{product.description}}
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
+                    </div>
+                </div>
+            </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
