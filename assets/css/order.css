@@ -1,0 +1,146 @@
+/* =========================================
+   GIAO DIỆN LỊCH SỬ ĐƠN HÀNG
+========================================= */
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+}
+
+.order-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.order-header {
+    background: #fdfdfd;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-header .order-id {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.order-header .order-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.order-status {
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Màu trạng thái */
+.status-cho-xu-ly {
+    color: #d97706;
+    background: #fef3c7;
+}
+
+.status-dang-giao {
+    color: #2563eb;
+    background: #dbeafe;
+}
+
+.status-hoan-thanh {
+    color: #16a34a;
+    background: #dcfce3;
+}
+
+.status-da-huy {
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+.order-body {
+    padding: 20px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #eee;
+}
+
+.order-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.order-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.item-meta {
+    color: #666;
+    font-size: 14px;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #000;
+}
+
+.order-footer {
+    padding: 15px 20px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.order-total-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #C05F5F;
+    margin-left: 10px;
+}
+
+.empty-order {
+    text-align: center;
+    padding: 50px 20px;
+    color: #666;
+}
+
+/* Nút Xem chi tiết */
+.btn-view-detail {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-view-detail:hover {
+    background: #d0011b;
+}

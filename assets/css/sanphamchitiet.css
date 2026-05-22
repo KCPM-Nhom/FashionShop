@@ -1,0 +1,283 @@
+/* --- LAYOUT CHUNG --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- TỔNG THỂ --- */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- KHỐI CHI TIẾT SẢN PHẨM (CĂN GIỮA) --- */
+.ct {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    /* Đã gộp từ dưới lên */
+    margin-bottom: 80px;
+    margin-left: 0;
+    /* Đã gộp từ dưới lên */
+    flex-wrap: wrap;
+}
+
+
+/* LƯỚI DANH SÁCH SẢN PHẨM KHÁC */
+
+/* --- LƯỚI DANH SÁCH SẢN PHẨM KHÁC --- */
+.pd {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.pd .sp {
+    width: 100%;
+}
+
+
+/* Khung ảnh bên trái */
+.product {
+    background: #EBFBFF;
+    width: 100%;
+    max-width: 500px;
+    height: 550px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.product img {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Đã gộp chuẩn để ảnh không bị cắt */
+}
+
+/* Khối thông tin bên phải */
+.info {
+    flex: 1;
+    max-width: 550px;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info h1 {
+    color: #000000;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+/* Đã thêm .info ở đầu để bảo vệ CSS khu vực chi tiết, không làm lệch thẻ .sp bên dưới */
+.info .price-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info .price-new {
+    color: #000000;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.info .price-old {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 18px;
+}
+
+.info .star {
+    color: #FDC700;
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+/* Khối mô tả & tùy chọn */
+.mt {
+    width: 100%;
+}
+
+.mt h2 {
+    color: #000000;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.mt p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+/* Size & Tăng giảm */
+.size {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.size p {
+    border: 1px solid #ccc;
+    padding: 6px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.size p:hover {
+    background: #7499B4;
+    color: white;
+    border-color: #000000;
+}
+
+.tg {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.tg button {
+    background: #ffb623;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.tg span {
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+}
+
+
+/* --- CÁC PHẦN CHÍNH SÁCH & BẢNG SIZE --- */
+.size-chart,
+.bh,
+.bl,
+.spk {
+    margin-top: 60px;
+    width: 100%;
+}
+
+.size-chart table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.size-chart th,
+.size-chart td {
+    border: 1px solid #eee;
+    padding: 15px;
+    text-align: center;
+}
+
+.size-chart th {
+    background: #f9f9f9;
+    color: #000000;
+}
+
+.bh h1,
+.spk h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.line {
+    width: 80px;
+    height: 3px;
+    background: #000000;
+    margin: 0 auto 30px;
+}
+
+.bh .tt {
+    background: #fdfdfd;
+    padding: 30px 40px;
+    border-radius: 15px;
+    margin: 30px auto;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.bh .tt p {
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 16px;
+    /* Chỉnh lại một chút cho chữ dễ đọc, theo format tối ưu */
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+/* ĐÃ XÓA TOÀN BỘ GRID SẢN PHẨM KHÁC VÀ CSS LẶP THỪA Ở CUỐI FILE */
+
+/* --- KHU VỰC ĐÁNH GIÁ SẢN PHẨM --- */
+.bl h2 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.bl .sl {
+    display: flex;
+    justify-content: space-between;
+    /* Đẩy dãy sao sang trái, nút bấm sang phải */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    background: #fdfdfd;
+    padding: 20px 40px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    margin-bottom: 30px;
+}
+
+/* Xóa cái margin thừa của class .star trong global.css để nó thẳng hàng với nút */
+.bl .star {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Trang trí nút Bình Luận */
+.cmm button {
+    padding: 12px 25px;
+    background-color: #000;
+    /* Màu đen nhìn cho sang, bạn có thể đổi màu khác */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Khoảng cách giữa icon và chữ */
+}
+
+.cmm button:hover {
+    background-color: #7499B4;
+    /* Hover đổi màu xanh giống theme của bạn */
+    transform: translateY(-2px);
+}

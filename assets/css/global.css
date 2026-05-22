@@ -1,0 +1,254 @@
+/* KHUNG SẢN PHẨM (CÓ 2 NÚT BẤM) */
+.sp {
+    background-color: #EBFBFF;
+    width: 300px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid none;
+    transition: 0.4s ease-in-out;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.sp:hover {
+    background-color: rgb(255, 255, 255);
+    transform: translateY(-8px);
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Ảnh sản phẩm - Ép tỷ lệ chống méo */
+.sp img {
+    width: 100%;
+    height: 220px;
+    object-position: center;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.sp h3 {
+    color: #000000;
+    font-size: 19px;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pt {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.pt img {
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    transition: transform 0.4s ease;
+}
+
+.pd {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+
+.price-container {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+    margin: 8px 0;
+}
+
+.price-new {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.price-old {
+    color: #e44d26;
+    font-size: 14px;
+    text-decoration: line-through;
+    text-decoration-color: #494949;
+}
+
+
+.star {
+    font-size: 22px;
+    color: #FDC700;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* Khu vực 2 nút bấm */
+.hd {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Định dạng chung cho 2 nút để chúng bằng nhau */
+.cart,
+.buy {
+    width: 100%;
+    padding: 10px 5px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.cart {
+    background-color: #C05F5F;
+    color: #FFFFFF;
+}
+
+.cart:hover {
+    color: rgb(0, 57, 117);
+    background-color: #c5c7ff;
+    transform: translateY(-3px);
+}
+
+.buy {
+    background-color: #F8F800;
+    color: #000000;
+}
+
+.buy:hover {
+    color: #4effea;
+    background-color: #0d5d76;
+    transform: translateY(-3px);
+}
+
+/* BỘ LỌC TỔNG HỢP (GIỚI TÍNH & SẮP XẾP) */
+.filter-bar {
+    max-width: 1200px;
+    margin: 20px auto 30px auto;
+    padding: 20px;
+    background-color: #fcfcfc;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter-label {
+    font-weight: bold;
+    color: #444;
+    font-size: 15px;
+}
+
+/* Style cho các nút chọn giới tính */
+.gender-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.gender-filter a {
+    text-decoration: none;
+    padding: 8px 18px;
+    background: white;
+    border: 1px solid #ddd;
+    color: #666;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.gender-filter a.active {
+    background-color: #7499B4;
+    color: white;
+    border-color: #7499B4;
+}
+
+.gender-filter a:hover:not(.active) {
+    background-color: #f0f0f0;
+}
+
+/* Style cho ô select sắp xếp */
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.sale-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff0000;
+    /* Nền đỏ */
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 5px;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* =======================================================
+   BỘ CHỌN SIZE NHỎ DÀNH CHO CÁC KHUNG SẢN PHẨM Ở CATEGORY
+   ======================================================= */
+.size-mini {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 18px;
+    width: 80%;
+}
+
+.size-mini input[type="radio"] {
+    display: none;
+}
+
+.size-mini label {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    color: #444;
+    text-align: center;
+    flex: 1;
+}
+
+.size-mini label:hover {
+    background: #7499B4;
+    color: white;
+    border-color: #000000;
+}
+
+.size-mini input[type="radio"]:checked+label {
+    background: #000000;
+    color: white;
+    border-color: #000000;
+}

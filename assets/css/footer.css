@@ -1,0 +1,62 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Biến phần nội dung ở giữa thành lò xo đẩy footer xuống */
+main {
+    flex: 1;
+}
+
+
+footer {
+    background-color: #0B1E34;
+    display: flex;
+    padding: 20px 40px;
+    justify-content: space-around;
+    margin-top: 100px;
+    min-height: 300px;
+}
+
+/* Sửa lại cách gọi class để chỉ tác động trong footer */
+footer .one,
+footer .two,
+footer .three,
+footer .four {
+    margin-top: 40px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+footer h3 {
+    color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+footer p {
+    color: #9FB3C8;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+footer .ct {
+    color: white;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    font-size: 28px;
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+/* ĐÂY LÀ CHỖ LÀM ICON MÀU TRẮNG */
+footer .ct i {
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+}

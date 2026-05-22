@@ -1,0 +1,18 @@
+/* Căn giữa tiêu đề chính của mỗi section */
+.section-title {
+    text-align: center;
+    width: 100%;
+    font-size: 32px;
+    color: #0B1E34;
+    margin-top: 60px;
+    font-weight: bold;
+}
+
+/* Căn giữa thanh gạch ngang */
+.section-line {
+    width: 200px;
+    height: 3px;
+    background-color: #0B1E34;
+    margin: 10px auto 40px auto;
+    border-radius: 2px;
+}
