@@ -42,6 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email    = mysqli_real_escape_string($conn, $input['email']    ?? '');
         $password = mysqli_real_escape_string($conn, $input['password'] ?? '');
 
+        // --- HÀM KIỂM TRA CHỮ IN HOA NGAY TRONG LOGIN ---
+        if (!preg_match('/[A-Z]/', $password)) {
+            $_SESSION['error'] = "Mật khẩu phải có ít nhất một chữ cái in hoa!";
+            header("Location: ../login.php");
+            exit();
+        }
+
         // Kiểm tra trong bảng ADMIN trước (Bằng Email)
         $sql_admin    = "SELECT * FROM admin WHERE email = '$email' AND password = '$password'";
         $result_admin = mysqli_query($conn, $sql_admin);
