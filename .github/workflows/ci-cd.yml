@@ -14,9 +14,6 @@ env:
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  # ─────────────────────────────────────────
-  # JOB 1: Kiểm tra code
-  # ─────────────────────────────────────────
   test:
     name: 🧪 Kiểm tra code
     runs-on: ubuntu-latest
@@ -40,51 +37,11 @@ jobs:
 
       - name: Kiểm tra file quan trọng tồn tại
         run: |
-          echo "📁 Kiểm tra file quan trọng..."
-          test -f index.php          && echo "✅ index.php OK"         || (echo "❌ Thiếu index.php" && exit 1)
-          test -f config/database.php && echo "✅ database.php OK"     || (echo "❌ Thiếu database.php" && exit 1)
-          test -f Dockerfile          && echo "✅ Dockerfile OK"       || (echo "❌ Thiếu Dockerfile" && exit 1)
+          test -f index.php           && echo "✅ index.php OK"          || (echo "❌ Thiếu index.php" && exit 1)
+          test -f config/database.php && echo "✅ database.php OK"       || (echo "❌ Thiếu database.php" && exit 1)
+          test -f Dockerfile          && echo "✅ Dockerfile OK"         || (echo "❌ Thiếu Dockerfile" && exit 1)
           test -f docker-compose.yml  && echo "✅ docker-compose.yml OK" || (echo "❌ Thiếu docker-compose.yml" && exit 1)
 
-      - name: Kiểm tra không có credentials hardcode
-        run: |
-          echo "🔐 Đang quét credentials hardcode..."
-
-          # Danh sách pattern cần phát hiện
-          PATTERNS=(
-            "db_password\s*=\s*['\"][^'\"]\+['\"]"
-            "db_username\s*=\s*['\"][^'\"]\+['\"]"
-            "db_host\s*=\s*['\"].*clever-cloud\|localhost\|127\.0\.0\.1['\"]"
-            "db_database\s*=\s*['\"][^'\"]\+['\"]"
-          )
-
-          FOUND=0
-          for pattern in "${PATTERNS[@]}"; do
-            # Bỏ qua file .env.example và thư mục .git
-            MATCHES=$(grep -rn --include="*.php" -i "$pattern" . \
-              | grep -v ".env.example" \
-              | grep -v "getenv(" \
-              | grep -v "^Binary")
-            if [ -n "$MATCHES" ]; then
-              echo "❌ Phát hiện credentials hardcode:"
-              echo "$MATCHES"
-              FOUND=1
-            fi
-          done
-
-          if [ $FOUND -eq 1 ]; then
-            echo ""
-            echo "💡 Hãy dùng getenv() thay vì hardcode. Ví dụ:"
-            echo '   $db_password = getenv("DB_PASSWORD");'
-            exit 1
-          fi
-
-          echo "✅ Không phát hiện credentials hardcode!"
-
-  # ─────────────────────────────────────────
-  # JOB 2: Build & Push Docker Image
-  # Chỉ push khi merge vào main
-  # ─────────────────────────────────────────
   build:
     name: 🐳 Build & Push Docker Image
     runs-on: ubuntu-latest

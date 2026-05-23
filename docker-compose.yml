@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: fashionshop_app
     ports:
-      - "8080:80"
+      - "9000:80"
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USERNAME=${DB_USERNAME}
