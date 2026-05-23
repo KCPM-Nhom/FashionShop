@@ -1,8 +1,5 @@
 <?php
-// Khởi tạo session ở dòng đầu tiên của trang để lấy thông tin đăng nhập
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+// Session is initialized in each main file before including this header
 ?>
 
 

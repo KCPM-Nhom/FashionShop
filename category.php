@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    ob_start();
+    session_start();
+}
 include('config/database.php');
 
 // TÁCH BIỆT RÕ RÀNG: Gốc (trang chủ) và Lọc (nút bấm)

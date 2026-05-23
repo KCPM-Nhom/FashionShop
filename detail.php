@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    ob_start();
+    session_start();
+}
 include('config/database.php');
 $id_sp = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $sql = "SELECT * FROM products WHERE id = $id_sp";

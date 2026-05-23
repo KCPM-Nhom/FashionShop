@@ -1,4 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    ob_start();
+    session_start();
+}
 include('config/database.php');
 
 // Lấy từ khóa và trang hiện tại
