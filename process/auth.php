@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone    = mysqli_real_escape_string($conn, $_POST['phone']);
         $gender   = mysqli_real_escape_string($conn, $_POST['gender']);
         $password = mysqli_real_escape_string($conn, $_POST['password']);
-
+        
         // Kiểm tra xem Email đã tồn tại chưa
         $check_exist = "SELECT * FROM user WHERE email = '$email'";
         $result_check = mysqli_query($conn, $check_exist);

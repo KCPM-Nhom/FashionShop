@@ -1,0 +1,115 @@
+name: CI/CD Pipeline - FashionShop
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+env:
+  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/fashionshop
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  # ─────────────────────────────────────────
+  # JOB 1: Kiểm tra code
+  # ─────────────────────────────────────────
+  test:
+    name: 🧪 Kiểm tra code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.0
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.0"
+
+      - name: Kiểm tra syntax tất cả file PHP
+        run: |
+          echo "🔍 Đang kiểm tra syntax PHP..."
+          find . -name "*.php" | while read file; do
+            php -l "$file" || exit 1
+          done
+          echo "✅ Tất cả file PHP hợp lệ!"
+
+      - name: Kiểm tra file quan trọng tồn tại
+        run: |
+          echo "📁 Kiểm tra file quan trọng..."
+          test -f index.php          && echo "✅ index.php OK"         || (echo "❌ Thiếu index.php" && exit 1)
+          test -f config/database.php && echo "✅ database.php OK"     || (echo "❌ Thiếu database.php" && exit 1)
+          test -f Dockerfile          && echo "✅ Dockerfile OK"       || (echo "❌ Thiếu Dockerfile" && exit 1)
+          test -f docker-compose.yml  && echo "✅ docker-compose.yml OK" || (echo "❌ Thiếu docker-compose.yml" && exit 1)
+
+      - name: Kiểm tra không có credentials hardcode
+        run: |
+          echo "🔐 Đang quét credentials hardcode..."
+
+          # Danh sách pattern cần phát hiện
+          PATTERNS=(
+            "db_password\s*=\s*['\"][^'\"]\+['\"]"
+            "db_username\s*=\s*['\"][^'\"]\+['\"]"
+            "db_host\s*=\s*['\"].*clever-cloud\|localhost\|127\.0\.0\.1['\"]"
+            "db_database\s*=\s*['\"][^'\"]\+['\"]"
+          )
+
+          FOUND=0
+          for pattern in "${PATTERNS[@]}"; do
+            # Bỏ qua file .env.example và thư mục .git
+            MATCHES=$(grep -rn --include="*.php" -i "$pattern" . \
+              | grep -v ".env.example" \
+              | grep -v "getenv(" \
+              | grep -v "^Binary")
+            if [ -n "$MATCHES" ]; then
+              echo "❌ Phát hiện credentials hardcode:"
+              echo "$MATCHES"
+              FOUND=1
+            fi
+          done
+
+          if [ $FOUND -eq 1 ]; then
+            echo ""
+            echo "💡 Hãy dùng getenv() thay vì hardcode. Ví dụ:"
+            echo '   $db_password = getenv("DB_PASSWORD");'
+            exit 1
+          fi
+
+          echo "✅ Không phát hiện credentials hardcode!"
+
+  # ─────────────────────────────────────────
+  # JOB 2: Build & Push Docker Image
+  # Chỉ push khi merge vào main
+  # ─────────────────────────────────────────
+  build:
+    name: 🐳 Build & Push Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
+            ${{ env.DOCKER_IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
