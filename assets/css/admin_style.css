@@ -247,7 +247,8 @@ td {
 }
 
 .form-add input[type="text"],
-.form-add input[type="number"] {
+.form-add input[type="number"],
+.form-add textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -255,6 +256,11 @@ td {
     border-radius: 5px;
     box-sizing: border-box;
     font-family: inherit;
+}
+
+.form-add textarea {
+    min-height: 100px;
+    resize: vertical;
 }
 
 .form-add label {
