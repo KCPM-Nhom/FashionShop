@@ -18,7 +18,7 @@ if ($keyword !== '') {
     $searchTerm = "%" . $keyword . "%";
 
     // 1. Đếm TỔNG SỐ sản phẩm tìm được trước
-    $sql_count = "SELECT COUNT(id) as total FROM products WHERE ten_sp LIKE ?";
+    $sql_count = "SELECT COUNT(id) as total FROM products WHERE BINARY LOWER(ten_sp) LIKE LOWER(?)";
     $stmt_count = $conn->prepare($sql_count);
     $stmt_count->bind_param("s", $searchTerm);
     $stmt_count->execute();
@@ -30,7 +30,7 @@ if ($keyword !== '') {
 
     // 2. Chỉ lấy đúng số sản phẩm của trang hiện tại (Dùng LIMIT và OFFSET)
     if ($total_records > 0) {
-        $sql = "SELECT * FROM products WHERE ten_sp LIKE ? LIMIT ? OFFSET ?";
+        $sql = "SELECT * FROM products WHERE BINARY LOWER(ten_sp) LIKE LOWER(?) LIMIT ? OFFSET ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sii", $searchTerm, $limit, $offset);
         $stmt->execute();
