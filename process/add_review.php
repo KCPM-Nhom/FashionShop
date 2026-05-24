@@ -6,7 +6,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     $product_id = (int)$_POST['product_id'];
     $rating = (int)$_POST['rating'];
-    $comment = mysqli_real_escape_string($conn, $_POST['comment']);
+
+ // 1. Lấy dữ liệu comment và dùng trim() để loại bỏ các dấu cách thừa ở đầu/cuối
+$raw_comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
+
+// 2. Kiểm tra nếu comment bị rỗng sau khi đã xóa dấu cách
+if (empty($raw_comment)) {
+    $alert_title = "Thất bại!";
+    $alert_theme = "danger"; // Hiện thông báo màu đỏ
+    $alert_message = "Vui lòng nhập nội dung bình luận, không được để trống!";
+    $redirect_url = "../detail.php?id=$product_id";
+    include('../includes/alert_message.php');
+    exit(); // Dừng ngay lập tức, không cho lưu vào Database
+}
+
+// 3. Nếu hợp lệ thì mới dùng mysqli_real_escape_string để chống SQL Injection
+$comment = mysqli_real_escape_string($conn, $raw_comment);
 
     // Thêm NOW() để cột created_at có dữ liệu, giúp detail.php lấy được ngày
     $sql = "INSERT INTO reviews (product_id, user_id, rating, comment, created_at) 
