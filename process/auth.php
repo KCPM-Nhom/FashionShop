@@ -90,6 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $gender   = mysqli_real_escape_string($conn, $input['gender']   ?? '');
         $password = mysqli_real_escape_string($conn, $input['password'] ?? '');
 
+        if (strlen($phone) !== 10) {
+            $_SESSION['error'] = "Số điện thoại phải chứa đúng 10 chữ số!";
+            header("Location: ../register.php");
+            exit();
+        }
+
+
         // Kiểm tra xem Email đã tồn tại chưa
         $check_exist  = "SELECT * FROM user WHERE email = '$email'";
         $result_check = mysqli_query($conn, $check_exist);
