@@ -6,6 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     $product_id = (int)$_POST['product_id'];
     $rating = (int)$_POST['rating'];
+    
+    if ($rating < 1 || $rating > 5) {
+        $alert_title = "Thất bại!";
+        $alert_theme = "danger";
+        $alert_message = "Số sao đánh giá không hợp lệ!";
+        $redirect_url = "../detail.php?id=$product_id";
+        include('../includes/alert_message.php');
+        exit();
+    }
 
  // 1. Lấy dữ liệu comment và dùng trim() để loại bỏ các dấu cách thừa ở đầu/cuối
 $raw_comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
