@@ -7,30 +7,32 @@ include('config/database.php');
 
 // Lấy từ khóa và trang hiện tại
 $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Mặc định là trang 1
-$limit = 8; // Số sản phẩm tối đa trên 1 trang (bạn có thể tăng lên 12 hoặc 16 tùy ý)
-$offset = ($page - 1) * $limit; // Tính toán vị trí bắt đầu lấy trong Database
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 8;
+$offset = ($page - 1) * $limit;
 
 $searchResults = [];
-$total_pages = 0; // Biến lưu tổng số trang
+$total_pages = 0;
 
 if ($keyword !== '') {
-    $searchTerm = "%" . $keyword . "%";
+    // Bỏ dấu cách trong keyword để hỗ trợ tìm liền (vd: aosomi -> áo sơ mi)
+    $keywordNoSpace = str_replace(' ', '', $keyword);
+    $searchTerm = "%" . $keywordNoSpace . "%";
 
-    // 1. Đếm TỔNG SỐ sản phẩm tìm được trước
-    $sql_count = "SELECT COUNT(id) as total FROM products WHERE BINARY LOWER(ten_sp) LIKE LOWER(?)";
+    // 1. Đếm TỔNG SỐ sản phẩm tìm được
+    $sql_count = "SELECT COUNT(id) as total FROM products WHERE REPLACE(LOWER(ten_sp), ' ', '') LIKE LOWER(?)";
     $stmt_count = $conn->prepare($sql_count);
     $stmt_count->bind_param("s", $searchTerm);
     $stmt_count->execute();
     $total_records = $stmt_count->get_result()->fetch_assoc()['total'];
     $stmt_count->close();
 
-    // Tính ra tổng số trang cần có
+    // Tính tổng số trang
     $total_pages = ceil($total_records / $limit);
 
-    // 2. Chỉ lấy đúng số sản phẩm của trang hiện tại (Dùng LIMIT và OFFSET)
+    // 2. Lấy sản phẩm của trang hiện tại
     if ($total_records > 0) {
-        $sql = "SELECT * FROM products WHERE BINARY LOWER(ten_sp) LIKE LOWER(?) LIMIT ? OFFSET ?";
+        $sql = "SELECT * FROM products WHERE REPLACE(LOWER(ten_sp), ' ', '') LIKE LOWER(?) LIMIT ? OFFSET ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sii", $searchTerm, $limit, $offset);
         $stmt->execute();
@@ -82,23 +84,15 @@ if ($keyword !== '') {
 
                         <div class="star">
                             <?php
-                            // Truy vấn lấy điểm trung bình của sản phẩm hiện tại
                             $sp_id = $row['id'];
                             $sql_star = "SELECT AVG(rating) as avg_rating FROM reviews WHERE product_id = $sp_id";
                             $res_star = mysqli_query($conn, $sql_star);
                             $star_row = mysqli_fetch_assoc($res_star);
-
-                            // Làm tròn điểm. 
-                            // Nếu chưa có ai đánh giá (null), mình tạm set mặc định là 5 sao cho đẹp web 
                             $diem_tb = round($star_row['avg_rating'] ?? 5);
-
-                            // 3. Vòng lặp vẽ 5 ngôi sao
                             for ($i = 1; $i <= 5; $i++) {
                                 if ($i <= $diem_tb) {
-                                    // Sao vàng (đã đánh giá)
                                     echo '<i class="fa-solid fa-star" style="color: #FFD43B;"></i> ';
                                 } else {
-                                    // Sao xám (sao rỗng)
                                     echo '<i class="fa-regular fa-star" style="color: #ccc;"></i> ';
                                 }
                             }
