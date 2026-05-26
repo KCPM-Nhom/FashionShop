@@ -18,7 +18,12 @@ if (empty($user_id)) {
 // Xử lý POST (Thêm, Xóa, Mặc định)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
+
     if ($action == 'add') {
+        if (!preg_match('/^[0-9]{9,11}$/', trim($_POST['phone']))) {
+            echo "<script>alert('Số điện thoại không hợp lệ!'); history.back();</script>";
+            exit();
+        }
         $fullname = mysqli_real_escape_string($conn, trim($_POST['fullname']));
         $phone = mysqli_real_escape_string($conn, trim($_POST['phone']));
         $address_details = mysqli_real_escape_string($conn, trim($_POST['address_details']));
@@ -26,15 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         if ($is_default == 1) mysqli_query($conn, "UPDATE user_addresses SET is_default = 0 WHERE user_id = '$user_id'");
         mysqli_query($conn, "INSERT INTO user_addresses (user_id, fullname, phone, address_details, is_default) VALUES ('$user_id', '$fullname', '$phone', '$address_details', '$is_default')");
     }
+
     if ($action == 'set_default') {
         $addr_id = mysqli_real_escape_string($conn, $_POST['address_id']);
         mysqli_query($conn, "UPDATE user_addresses SET is_default = 0 WHERE user_id = '$user_id'");
         mysqli_query($conn, "UPDATE user_addresses SET is_default = 1 WHERE id = '$addr_id' AND user_id = '$user_id'");
     }
+
     if ($action == 'delete') {
         $addr_id = mysqli_real_escape_string($conn, $_POST['address_id']);
         mysqli_query($conn, "DELETE FROM user_addresses WHERE id = '$addr_id' AND user_id = '$user_id'");
     }
+
     header("Location: address.php");
     exit();
 }
@@ -44,7 +52,6 @@ $result_addr = mysqli_query($conn, "SELECT * FROM user_addresses WHERE user_id =
 
 <title>Sổ Địa Chỉ - FASHIONSTORE</title>
 <?php include('includes/header.php'); ?>
-
 
 <link rel="stylesheet" href="assets/css/global.css">
 <link rel="stylesheet" href="assets/css/address.css">
@@ -63,9 +70,9 @@ $result_addr = mysqli_query($conn, "SELECT * FROM user_addresses WHERE user_id =
             <?php while ($row = mysqli_fetch_assoc($result_addr)): ?>
                 <div class="address-card <?php echo ($row['is_default'] == 1) ? 'default' : ''; ?>">
                     <?php if ($row['is_default'] == 1): ?><span class="badge-default">Mặc định</span><?php endif; ?>
-                    <div class="addr-name"><i class="fa fa-user"></i> <?php echo $row['fullname']; ?></div>
-                    <div class="addr-phone"><i class="fa fa-phone"></i> <?php echo $row['phone']; ?></div>
-                    <div class="addr-details"><i class="fa fa-map-marker-alt"></i> <?php echo $row['address_details']; ?></div>
+                    <div class="addr-name"><i class="fa fa-user"></i> <?php echo htmlspecialchars($row['fullname']); ?></div>
+                    <div class="addr-phone"><i class="fa fa-phone"></i> <?php echo htmlspecialchars($row['phone']); ?></div>
+                    <div class="addr-details"><i class="fa fa-map-marker-alt"></i> <?php echo htmlspecialchars($row['address_details']); ?></div>
                     <div class="addr-actions">
                         <?php if ($row['is_default'] == 0): ?>
                             <form method="POST"><input type="hidden" name="action" value="set_default"><input type="hidden" name="address_id" value="<?php echo $row['id']; ?>"><button type="submit" class="btn-action">Mặc định</button></form>
