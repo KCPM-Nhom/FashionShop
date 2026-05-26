@@ -10,6 +10,18 @@ if (isset($_POST['update_info'])) {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $gender = mysqli_real_escape_string($conn, $_POST['gender']);
 
+    // KIỂM TRA SỐ ĐIỆN THOẠI
+    if (!preg_match('/^[0-9]{10}$/', $phone)) {
+
+        $alert_title = "Thất bại!";
+        $alert_theme = "danger";
+        $alert_message = "Số điện thoại không hợp lệ";
+        $redirect_url = "javascript:history.back()";
+
+        include('../includes/alert_message.php');
+        exit();
+    }
+
     $sql = "UPDATE user SET email='$email', phone='$phone', gender='$gender' WHERE id='$user_id'";
 
     if (mysqli_query($conn, $sql)) {
