@@ -74,9 +74,10 @@ $total_price = 0;
                                 <a href="process/update_cart.php?action=increase&cart_id=<?php echo $item['cart_id']; ?>" class="btn-qty" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; color: black;">+</a>
                             </div>
                         </div>
-                        <a href="process/remove_cart.php?cart_id=<?php echo $item['cart_id']; ?>" class="cart-delete" title="Xóa sản phẩm này" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
+                    
+                        <button class="cart-delete" title="Xóa sản phẩm này" onclick="removeCart(<?php echo $item['cart_id']; ?>)">
+                        <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
             <?php
                 } // Đóng vòng lặp foreach
@@ -119,6 +120,19 @@ $total_price = 0;
     </div>
 
     <script src="assets/js/cart.js"></script>
+    <script>
+function removeCart(cartId) {
+    if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+    fetch(`process/remove_cart.php?cart_id=${cartId}`)
+        .then(res => res.text())
+        .then(data => {
+            if (data.includes('thành công')) {
+                alert('Đã xóa sản phẩm thành công');
+                location.reload();
+            }
+        });
+}
+</script>
 </main>
 
 <?php include('includes/footer.php'); ?>
