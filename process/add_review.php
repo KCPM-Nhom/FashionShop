@@ -32,7 +32,7 @@ if (empty($raw_comment)) {
 // 3. Nếu hợp lệ thì mới dùng mysqli_real_escape_string để chống SQL Injection
 $comment = mysqli_real_escape_string($conn, $raw_comment);
 
-// Kiểm tra sản phẩm có tồn tại không
+// Kiểm tra xem sản phẩm có tồn tại không
 $check_product = "SELECT id FROM products WHERE id = '$product_id'";
 $result_product = mysqli_query($conn, $check_product);
 
