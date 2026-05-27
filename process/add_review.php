@@ -32,6 +32,22 @@ if (empty($raw_comment)) {
 // 3. Nếu hợp lệ thì mới dùng mysqli_real_escape_string để chống SQL Injection
 $comment = mysqli_real_escape_string($conn, $raw_comment);
 
+// Kiểm tra sản phẩm có tồn tại không
+$check_product = "SELECT id FROM products WHERE id = '$product_id'";
+$result_product = mysqli_query($conn, $check_product);
+
+if (mysqli_num_rows($result_product) == 0) {
+
+    http_response_code(400);
+
+    $alert_title = "Thất bại!";
+    $alert_theme = "danger";
+    $alert_message = "Sản phẩm không tồn tại!";
+    $redirect_url = "../index.php";
+
+    include('../includes/alert_message.php');
+    exit();
+}
     // Thêm NOW() để cột created_at có dữ liệu, giúp detail.php lấy được ngày
     $sql = "INSERT INTO reviews (product_id, user_id, rating, comment, created_at) 
             VALUES ('$product_id', '$user_id', '$rating', '$comment', NOW())";
